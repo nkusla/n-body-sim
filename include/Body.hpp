@@ -2,34 +2,32 @@
 #define BODY_H
 
 #include <array>
-
-struct vector2 {
-	float x;
-	float y;
-};
+#include <glm/glm.hpp>
 
 class Body {
 	private:
 		float mass;
-		vector2 position;
-		vector2 velocity;
-		vector2 acceleration;
+		glm::vec2 position;
+		glm::vec2 velocity;
+		glm::vec2 acceleration;
 
 	public:
 		Body();
-		Body(float m, vector2 pos, vector2 vel, vector2 acc);
+		Body(float m, glm::vec2 pos, glm::vec2 vel);
 
 		float getMass();
-		vector2 getPosition();
-		vector2 getVelocity();
-		vector2 getAcceleration();
+		glm::vec2 getPosition();
+		glm::vec2 getVelocity();
+		glm::vec2 getAcceleration();
 
 		void setMass(float mass);
-		void setPosition(vector2 pos);
-		void setVelocity(vector2 vel);
-		void setAcceleration(vector2 acc);
+		void setPosition(glm::vec2 pos);
+		void setVelocity(glm::vec2 vel);
+		void setAcceleration(glm::vec2 acc);
 
-		void resetAcceleration();
+		void addPosition(glm::vec2 pos);
+		void addAcceleration(glm::vec2 acc);
+		void addVelocity(glm::vec2 vel);
 };
 
 #endif

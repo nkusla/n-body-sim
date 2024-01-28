@@ -1,23 +1,28 @@
 #ifndef SOLVER_H
 #define SOLVER_H
 
+#include "Body.hpp"
+#include <vector>
+#include <iostream>
+
 class Solver {
-	virtual void solve() = 0;
+	public:
+		virtual void solve(std::vector<Body>& bodies, float dt) {}
 };
 
-class ForwardEulerSolver : public Solver {
+class ImplicitEuler : public Solver {
 	public:
-		void solve();
+		void solve(std::vector<Body>& bodies, float dt);
 };
 
-class BackwardEulerSolver : public Solver {
+class SemiImplicitEuler : public Solver {
 	public:
-		void solve();
+		void solve(std::vector<Body>& bodies, float dt);
 };
 
 class VerletSolver : public Solver {
 	public:
-		void solve();
+		void solve(std::vector<Body>& bodies, float dt);
 };
 
 #endif

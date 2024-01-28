@@ -6,6 +6,9 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND CMAKE_CXX_COMPILER_VERSION VERSION_
 	return()
 endif()
 
+find_package(glm CONFIG REQUIRED)
+link_libraries(glm::glm)
+
 include_directories(include)
 file(GLOB SOURCE "src/*.cpp")
 add_executable(Simulator ${SOURCE})
