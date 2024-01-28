@@ -1,27 +1,50 @@
 #include <iostream>
+#include <random>
 #include "../include/Solver.hpp"
 #include "../include/Body.hpp"
 #include "../include/DirectSimulator.hpp"
+#include <GLFW/glfw3.h>
+#include <GL/gl.h>
 
 int main() {
 
-	DirectSimulator sim(STEP, 2);
+	std::default_random_engine generator(42);
+  	std::uniform_real_distribution<double> distribution(-1.0,1.0);
 
-	Body b1(10e9f,
-		{0.0f, 0.0f},
-		{0.0f, 0.0f});
+	std::vector<Body> bodies(N_BODIES);
 
-	Body b2 = b1;
-	b2.setPosition({10.f, 10.f});
+	for(int i = 0; i < N_BODIES; ++i) {
+		bodies[i].setPosition({distribution(generator), distribution(generator)});
+	}
 
-	std::vector<Body> bodies = {b1, b2};
+	if(!glfwInit())
+		return -1;
 
-	sim.setBodies(bodies);
+	GLFWwindow* window = glfwCreateWindow(800, 600, "Simulator", NULL, NULL);
 
-	SemiImplicitEuler semiImplicitEuler;
-	ForwardEuler forwardEuler;
+	if(!window) {
+		glfwTerminate();
+		return -1;
+	}
 
-	sim.simulate(10.f, semiImplicitEuler);
+	glfwMakeContextCurrent(window);
+
+	while (!glfwWindowShouldClose(window)) {
+
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		glBegin(GL_POINTS);
+
+		for(int i = 0; i < bodies.size(); i++) {
+			glm::vec2 pos = bodies[i].getPosition();
+			glVertex2f(pos.x, pos.y);
+		}
+		glEnd();
+
+        glfwSwapBuffers(window);
+        glfwPollEvents();
+    }
+
+	glfwTerminate();
 
 	return 0;
 }

@@ -6,8 +6,10 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND CMAKE_CXX_COMPILER_VERSION VERSION_
 	return()
 endif()
 
-find_package(glm CONFIG REQUIRED)
-link_libraries(glm::glm)
+find_package(glm REQUIRED)
+find_package(glfw3 REQUIRED)
+find_package(OpenGL REQUIRED)
+link_libraries(glm::glm glfw OpenGL::GL)
 
 include_directories(include)
 file(GLOB SOURCE "src/*.cpp")

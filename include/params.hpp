@@ -3,7 +3,7 @@
 
 #ifndef PARAMS_DEFINED
 
-#define N_BODY		100
+#define N_BODIES	100
 #define G			6.6743e-11
 #define EPSILON		0.01
 #define STEP		0.001
