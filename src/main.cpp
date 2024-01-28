@@ -1,4 +1,6 @@
 #include <iostream>
+#include "../include/Solver.hpp"
+#include "../include/Body.hpp"
 
 int main() {
 
