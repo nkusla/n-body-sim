@@ -6,6 +6,7 @@
 #include "params.hpp"
 #include <cmath>
 #include <vector>
+#include <iostream>
 
 class DirectSimulator {
 	private:

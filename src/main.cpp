@@ -5,7 +5,7 @@
 
 int main() {
 
-	DirectSimulator sim(0.01, 2);
+	DirectSimulator sim(STEP, 2);
 
 	Body b1(10e9f,
 		{0.0f, 0.0f},
@@ -18,9 +18,10 @@ int main() {
 
 	sim.setBodies(bodies);
 
-	SemiImplicitEuler sme = SemiImplicitEuler();
+	SemiImplicitEuler semiImplicitEuler;
+	ForwardEuler forwardEuler;
 
-	sim.simulate(5.f, sme);
+	sim.simulate(10.f, semiImplicitEuler);
 
 	return 0;
 }

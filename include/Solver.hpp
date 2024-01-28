@@ -3,14 +3,13 @@
 
 #include "Body.hpp"
 #include <vector>
-#include <iostream>
 
 class Solver {
 	public:
 		virtual void solve(std::vector<Body>& bodies, float dt) {}
 };
 
-class ImplicitEuler : public Solver {
+class ForwardEuler : public Solver {
 	public:
 		void solve(std::vector<Body>& bodies, float dt);
 };
@@ -20,7 +19,7 @@ class SemiImplicitEuler : public Solver {
 		void solve(std::vector<Body>& bodies, float dt);
 };
 
-class VerletSolver : public Solver {
+class Verlet : public Solver {
 	public:
 		void solve(std::vector<Body>& bodies, float dt);
 };
