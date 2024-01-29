@@ -1,12 +1,18 @@
 #include "../include/DirectSimulator.hpp"
 
-DirectSimulator::DirectSimulator() {}
+DirectSimulator::DirectSimulator(float dt, std::vector<Body>& bodies, Solver& solver)
+	: dt(dt),
+	bodies(bodies),
+	solver(solver),
+	resultsLogger() {};
 
-DirectSimulator::DirectSimulator(float dt, int num_bodies) : dt(dt), bodies(num_bodies) {};
+ResultsLogger& DirectSimulator::getResultsLogger() { return resultsLogger; }
 
 void DirectSimulator::setDt(float dt) { dt = dt; }
 
-void DirectSimulator::setBodies(std::vector<Body> b) { bodies = b; }
+void DirectSimulator::setSolver(Solver& solver) { solver = solver; }
+
+void DirectSimulator::setBodies(std::vector<Body>& b) { bodies = b; }
 
 void DirectSimulator::calculateBodyAcceleration() {
 	glm::vec2 acc(0.f, 0.f);
@@ -28,15 +34,14 @@ void DirectSimulator::calculateBodyAcceleration() {
 	}
 }
 
-void DirectSimulator::simulate(float time_end, Solver& solver) {
+void DirectSimulator::simulate(float time_end) {
 	for(float tick = 0.f; tick < time_end; tick += dt) {
+		resultsLogger.startTimeMeasure();
+
 		calculateBodyAcceleration();
 		solver.solve(bodies, dt);
 
-		// for(int i = 0; i < bodies.size(); i++) {
-		// 	std::cout << bodies[i].getPosition().x << " " << bodies[i].getPosition().y << std::endl;
-		// }
-
-		// std::cout << std::endl;
+		resultsLogger.endTimeMeasure();
+		resultsLogger.logSystemEnergy(bodies);
 	}
 }

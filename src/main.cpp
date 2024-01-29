@@ -1,50 +1,29 @@
 #include <iostream>
 #include <random>
-#include "../include/Solver.hpp"
-#include "../include/Body.hpp"
-#include "../include/DirectSimulator.hpp"
 #include <GLFW/glfw3.h>
 #include <GL/gl.h>
 
+#include "../include/Solver.hpp"
+#include "../include/Body.hpp"
+#include "../include/DataParser.hpp"
+#include "../include/DirectSimulator.hpp"
+
 int main() {
 
-	std::default_random_engine generator(42);
-  	std::uniform_real_distribution<double> distribution(-1.0,1.0);
+	std::string csvDataPath = "../data/2_body.csv";
+	std::string csvResultPath = "../results/result.csv";
 
-	std::vector<Body> bodies(N_BODIES);
+	ForwardEuler forwardEuler = ForwardEuler();
+	SemiImplicitEuler semiImplicitEuler = SemiImplicitEuler();
+	Verlet verlet = Verlet();
 
-	for(int i = 0; i < N_BODIES; ++i) {
-		bodies[i].setPosition({distribution(generator), distribution(generator)});
-	}
+	std::vector<Body> bodies;
+	DataParser::readBodyDataFromCSV(csvDataPath, bodies);
 
-	if(!glfwInit())
-		return -1;
+	DirectSimulator directSimulator(STEP, bodies, semiImplicitEuler);
+	directSimulator.simulate(5.0);
 
-	GLFWwindow* window = glfwCreateWindow(800, 600, "Simulator", NULL, NULL);
-
-	if(!window) {
-		glfwTerminate();
-		return -1;
-	}
-
-	glfwMakeContextCurrent(window);
-
-	while (!glfwWindowShouldClose(window)) {
-
-		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-		glBegin(GL_POINTS);
-
-		for(int i = 0; i < bodies.size(); i++) {
-			glm::vec2 pos = bodies[i].getPosition();
-			glVertex2f(pos.x, pos.y);
-		}
-		glEnd();
-
-        glfwSwapBuffers(window);
-        glfwPollEvents();
-    }
-
-	glfwTerminate();
+	DataParser::writeResultsDataToCSV(csvResultPath, directSimulator.getResultsLogger());
 
 	return 0;
 }

@@ -1,27 +1,33 @@
 #ifndef DIRECT_H
 #define DIRECT_H
 
-#include "Body.hpp"
-#include "Solver.hpp"
-#include "params.hpp"
 #include <cmath>
 #include <vector>
 #include <iostream>
 
+#include "Body.hpp"
+#include "Solver.hpp"
+#include "ResultsLogger.hpp"
+#include "params.hpp"
+
+
 class DirectSimulator {
 	private:
 		float dt;
-		std::vector<Body> bodies;
+		std::vector<Body>& bodies;
+		Solver& solver;
+		ResultsLogger resultsLogger;
 
 	public:
-		DirectSimulator();
-		DirectSimulator(float dt, int num_bodies);
+		DirectSimulator(float dt, std::vector<Body>& bodies, Solver& solver);
 
+		ResultsLogger& getResultsLogger();
 		void setDt(float dt);
-		void setBodies(std::vector<Body> b);
+		void setSolver(Solver& solver);
+		void setBodies(std::vector<Body>& b);
 
 		void calculateBodyAcceleration();
-		void simulate(float time, Solver& solver);
+		void simulate(float time);
 };
 
 
