@@ -29,15 +29,12 @@ void ResultsLogger::logSystemEnergy(std::vector<Body>& bodies) {
 	float potentialEnergy = 0.f;
 
 	for(Body& b : bodies)
-		kineticEnergy += 0.5 * b.getMass() * glm::length(b.getVelocity()) * glm::length(b.getVelocity());
+		kineticEnergy += 0.5 * b.getMass() * glm::pow(glm::length(b.getVelocity()), 2);
 
 	for(int i = 0; i < bodies.size(); ++i) {
-		for(int j = 0; j < bodies.size(); ++j) {
-			if (i == j)
-				continue;
-
+		for(int j = i+1; j < bodies.size(); ++j) {
 			float r = glm::length(bodies[i].getPosition() - bodies[j].getPosition());
-			potentialEnergy += G * bodies[i].getMass() * bodies[j].getMass() / r;
+			potentialEnergy += - G * bodies[i].getMass() * bodies[j].getMass() / r;
 		}
 	}
 

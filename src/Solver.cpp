@@ -1,25 +1,25 @@
 #include "../include/Solver.hpp"
 
 void ForwardEuler::solve(std::vector<Body>& bodies, float dt) {
-	for(int i = 0; i < bodies.size(); i++) {
-		bodies[i].addPosition(
-			bodies[i].getVelocity() * dt
+	for(Body& b : bodies) {
+		b.addPosition(
+			b.getVelocity() * dt
 		);
 
-		bodies[i].addVelocity(
-			bodies[i].getAcceleration() * dt
+		b.addVelocity(
+			b.getAcceleration() * dt
 		);
 	}
 }
 
 void SemiImplicitEuler::solve(std::vector<Body>& bodies, float dt) {
-	for(int i = 0; i < bodies.size(); i++) {
-		bodies[i].addVelocity(
-			bodies[i].getAcceleration() * dt
+	for(Body& b : bodies) {
+		b.addVelocity(
+			b.getAcceleration() * dt
 		);
 
-		bodies[i].addPosition(
-			bodies[i].getVelocity() * dt
+		b.addPosition(
+			b.getVelocity() * dt
 		);
 	}
 }

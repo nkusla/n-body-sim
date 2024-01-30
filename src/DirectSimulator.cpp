@@ -17,19 +17,17 @@ void DirectSimulator::setBodies(std::vector<Body>& b) { bodies = b; }
 void DirectSimulator::calculateBodyAcceleration() {
 	glm::vec2 acc(0.f, 0.f);
 
-	for(int i = 0; i < bodies.size(); i++)
-		bodies[i].setAcceleration({0.f, 0.f});
+	for(Body& b : bodies)
+		b.setAcceleration({0.f, 0.f});
 
 	for(int i = 0; i < bodies.size(); i++) {
-		for(int j = 0; j < bodies.size(); j++) {
-			if (i == j)
-				continue;
-
+		for(int j = i+1; j < bodies.size(); j++) {
 			glm::vec2 r = bodies[i].getPosition() - bodies[j].getPosition();
 			float r_div = glm::pow(glm::pow(r.length(), 2) + EPSILON*EPSILON, 1.5);
 
 			r *= - G * bodies[j].getMass() / r_div;
 			bodies[i].addAcceleration(r);
+			bodies[j].addAcceleration(-r);
 		}
 	}
 }
