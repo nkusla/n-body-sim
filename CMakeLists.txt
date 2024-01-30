@@ -14,4 +14,5 @@ link_libraries(GLEW::GLEW glm::glm glfw OpenGL::GL)
 
 include_directories(include)
 file(GLOB SOURCE "src/*.cpp")
+add_compile_options(-g)
 add_executable(Simulator ${SOURCE})

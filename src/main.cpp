@@ -9,23 +9,27 @@
 
 int main() {
 
-	// std::string csvDataPath = "../data/2_body.csv";
-	// std::string csvResultPath = "../results/result.csv";
+	std::string csvDataPath = "../data/random.csv";
+	std::string csvResultPath = "../results/result.csv";
 
-	// ForwardEuler forwardEuler = ForwardEuler();
-	// SemiImplicitEuler semiImplicitEuler = SemiImplicitEuler();
-	// Verlet verlet = Verlet();
+	ForwardEuler forwardEuler = ForwardEuler();
+	SemiImplicitEuler semiImplicitEuler = SemiImplicitEuler();
+	Verlet verlet = Verlet();
 
-	// std::vector<Body> bodies;
-	// DataParser::readBodyDataFromCSV(csvDataPath, bodies);
+	std::vector<Body> bodies;
+	DataParser::readBodyDataFromCSV(csvDataPath, bodies);
 
-	// DirectSimulator directSimulator(STEP, bodies, semiImplicitEuler);
+	DirectSimulator directSimulator(STEP, bodies, semiImplicitEuler);
 
 	ApplicationWindow appWindow(1024, 768);
 
 	while(appWindow.checkApplicationClose()) {
+		appWindow.displayBodies(bodies);
+
 		// Swap front and back buffers
-        //glfwSwapBuffers(appWindow.getWindow());
+        glfwSwapBuffers(appWindow.getWindow());
+
+		directSimulator.simulateStep();
 
         // Poll for and process events
         glfwPollEvents();
@@ -33,7 +37,7 @@ int main() {
 
 	appWindow.closeApplication();
 
-	//DataParser::writeResultsDataToCSV(csvResultPath, directSimulator.getResultsLogger());
+	// DataParser::writeResultsDataToCSV(csvResultPath, directSimulator.getResultsLogger());
 
 	return 0;
 }
