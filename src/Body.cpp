@@ -22,7 +22,7 @@ glm::vec2 Body::getAcceleration() { return acceleration; }
 
 void Body::setMass(float m) { mass = m; }
 
-void Body::setPosition(glm::vec2 pos) { position = pos; }
+void Body::setPosition(glm::vec2& pos) { position = pos; }
 
 void Body::setVelocity(glm::vec2 vel) { velocity = vel; }
 

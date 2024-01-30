@@ -15,7 +15,6 @@ void DirectSimulator::setSolver(Solver& solver) { solver = solver; }
 void DirectSimulator::setBodies(std::vector<Body>& b) { bodies = b; }
 
 void DirectSimulator::calculateBodyAcceleration() {
-	glm::vec2 acc(0.f, 0.f);
 
 	for(Body& b : bodies)
 		b.setAcceleration({0.f, 0.f});
@@ -34,12 +33,16 @@ void DirectSimulator::calculateBodyAcceleration() {
 
 void DirectSimulator::simulate(float time_end) {
 	for(float tick = 0.f; tick < time_end; tick += dt) {
-		resultsLogger.startTimeMeasure();
-
-		calculateBodyAcceleration();
-		solver.solve(bodies, dt);
-
-		resultsLogger.endTimeMeasure();
-		resultsLogger.logSystemEnergy(bodies);
+		simulateStep();
 	}
+}
+
+void DirectSimulator::simulateStep() {
+	resultsLogger.startTimeMeasure();
+
+	calculateBodyAcceleration();
+	solver.solve(bodies, dt);
+
+	resultsLogger.endTimeMeasure();
+	resultsLogger.logSystemEnergy(bodies);
 }

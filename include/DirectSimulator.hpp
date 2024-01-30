@@ -28,6 +28,7 @@ class DirectSimulator {
 
 		void calculateBodyAcceleration();
 		void simulate(float time);
+		void simulateStep();
 };
 
 
