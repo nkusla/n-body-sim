@@ -18,6 +18,7 @@ class QuadtreeNode {
 		QuadtreeNode(glm::vec2 topLeft, glm::vec2 bottomRight);
 		~QuadtreeNode();
 
+		float getWidth();
 		glm::vec2 getCenterOfMass();
 		void subdivideNote();
 		bool checkIfPositionInQuadrant(glm::vec2 position);

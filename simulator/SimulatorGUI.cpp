@@ -12,14 +12,13 @@ int main() {
 	std::string csvDataPath = "../data/2_body.csv";
 	std::string csvResultPath = "../results/result.csv";
 
-	ForwardEuler forwardEuler = ForwardEuler();
-	SemiImplicitEuler semiImplicitEuler = SemiImplicitEuler();
-	Verlet verlet = Verlet();
-
 	std::vector<Body> bodies;
 	DataParser::readBodyDataFromCSV(csvDataPath, bodies);
 
-	DirectSimulator directSimulator(STEP, bodies, semiImplicitEuler);
+	DirectSimulator directSimulator(bodies, STEP);
+	directSimulator.setSolver(new SemiImplicitEuler());
+	directSimulator.setSolver(new ForwardEuler());
+
 	ApplicationWindow appWindow(1024, 768);
 
 	while(appWindow.checkApplicationClose()) {

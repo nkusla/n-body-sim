@@ -7,9 +7,6 @@
 
 class Solver {
 	public:
-		void calculateBodyAcceleration(std::vector<Body>& bodies);
-		float calculateDistanceEpsilon(glm::vec2 r);
-		float calculateDistanceMax(glm::vec2 r);
 		virtual void solve(std::vector<Body>& bodies, float dt) {}
 };
 

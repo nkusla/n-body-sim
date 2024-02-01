@@ -24,6 +24,10 @@ QuadtreeNode::~QuadtreeNode() {
 	}
 }
 
+float QuadtreeNode::getWidth() {
+	return bottomRight.x - topLeft.x;
+}
+
 glm::vec2 QuadtreeNode::getCenterOfMass() {
 	return weightedPosition / mass;
 }
