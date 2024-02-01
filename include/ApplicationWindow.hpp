@@ -14,8 +14,8 @@ class ApplicationWindow {
 	private:
 		GLFWwindow* window;
 		glm::vec2 screenSize;
-		std::vector<glm::vec2> positions;
-		unsigned int positionBuffer;
+		float scaling_factor = 1e-3;
+		float scaling_step = 5e-6;
 
 	public:
 		ApplicationWindow(int width, int height);
@@ -23,8 +23,9 @@ class ApplicationWindow {
 
 		bool checkApplicationClose();
 		void closeApplication();
-		void extractAndTransformPosition(std::vector<Body>& bodies);
+		glm::vec2 transformPosition(glm::vec2 position);
 		void displayBodies(std::vector<Body>& bodies);
+		void checKeyPressed();
 };
 
 #endif

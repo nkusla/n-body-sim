@@ -21,12 +21,16 @@ void DirectSimulator::calculateBodyAcceleration() {
 
 	for(int i = 0; i < bodies.size(); i++) {
 		for(int j = i+1; j < bodies.size(); j++) {
+
 			glm::vec2 r = bodies[i].getPosition() - bodies[j].getPosition();
 			float r_div = glm::pow(glm::pow(r.length(), 2) + EPSILON*EPSILON, 1.5);
 
-			r *= - G * bodies[j].getMass() / r_div;
-			bodies[i].addAcceleration(r);
-			bodies[j].addAcceleration(-r);
+			r *= - G / r_div;
+			glm::vec2 acc_i = r * bodies[j].getMass();
+			glm::vec2 acc_j = - r * bodies[i].getMass();
+
+			bodies[i].addAcceleration(acc_i);
+			bodies[j].addAcceleration(acc_j);
 		}
 	}
 }

@@ -23,21 +23,20 @@ int main() {
 
 	ApplicationWindow appWindow(1024, 768);
 
+	//directSimulator.simulate(1000.f);
+
 	while(appWindow.checkApplicationClose()) {
+		appWindow.checKeyPressed();
 		appWindow.displayBodies(bodies);
-
-		// Swap front and back buffers
-        glfwSwapBuffers(appWindow.getWindow());
-
 		directSimulator.simulateStep();
 
-        // Poll for and process events
+        glfwSwapBuffers(appWindow.getWindow());
         glfwPollEvents();
 	}
 
 	appWindow.closeApplication();
 
-	// DataParser::writeResultsDataToCSV(csvResultPath, directSimulator.getResultsLogger());
+	DataParser::writeResultsDataToCSV(csvResultPath, directSimulator.getResultsLogger());
 
 	return 0;
 }

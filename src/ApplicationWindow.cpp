@@ -27,6 +27,7 @@ ApplicationWindow::ApplicationWindow(int width, int height) {
 	}
 
 	glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
+	glfwSetWindowUserPointer(window, this);
 
 	// glGenBuffers(1, &positionBuffer);
 	// glBindBuffer(GL_ARRAY_BUFFER, positionBuffer);
@@ -46,24 +47,28 @@ void ApplicationWindow::closeApplication() {
 	glfwTerminate();
 }
 
-void ApplicationWindow::extractAndTransformPosition(std::vector<Body>& bodies) {
-	positions.clear();
-
-	// ??????
-	for(Body& b : bodies)
-		positions.push_back(
-			b.getPosition() / screenSize
-		);
+glm::vec2 ApplicationWindow::transformPosition(glm::vec2 position) {
+	return position * scaling_factor;
 }
 
 void ApplicationWindow::displayBodies(std::vector<Body>& bodies) {
-	extractAndTransformPosition(bodies);
-
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glPointSize(5.f);
 	glBegin(GL_POINTS);
-		for(glm::vec2& pos : positions) {
+		for(Body& b : bodies) {
+			glm::vec2 pos = transformPosition(b.getPosition());
 			glVertex2f(pos.x, pos.y);
 		}
 	glEnd();
+}
+
+void ApplicationWindow::checKeyPressed() {
+	if(glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
+		scaling_factor -= scaling_step;
+		scaling_factor = (scaling_factor < 0) ? scaling_step : scaling_factor;
+	}
+	else if(glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+		scaling_factor += scaling_step;
+	else
+		return;
 }
