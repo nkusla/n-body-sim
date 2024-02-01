@@ -9,7 +9,7 @@
 
 int main() {
 
-	std::string csvDataPath = "../data/random.csv";
+	std::string csvDataPath = "../data/2_body.csv";
 	std::string csvResultPath = "../results/result.csv";
 
 	ForwardEuler forwardEuler = ForwardEuler();
@@ -19,11 +19,12 @@ int main() {
 	std::vector<Body> bodies;
 	DataParser::readBodyDataFromCSV(csvDataPath, bodies);
 
-	DirectSimulator directSimulator(STEP, bodies, semiImplicitEuler);
+	DirectSimulator directSimulator(STEP, bodies, forwardEuler);
+	//directSimulator.generateRandomBodies();
 
 	ApplicationWindow appWindow(1024, 768);
 
-	//directSimulator.simulate(1000.f);
+	//directSimulator.simulate(1.f);
 
 	while(appWindow.checkApplicationClose()) {
 		appWindow.checKeyPressed();

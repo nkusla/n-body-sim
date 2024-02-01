@@ -1,11 +1,13 @@
 #ifndef SOLVER_H
 #define SOLVER_H
 
+#include "params.hpp"
 #include "Body.hpp"
 #include <vector>
 
 class Solver {
 	public:
+		void calculateBodyAcceleration(std::vector<Body>& bodies);
 		virtual void solve(std::vector<Body>& bodies, float dt) {}
 };
 

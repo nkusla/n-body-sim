@@ -12,27 +12,20 @@ void DirectSimulator::setDt(float dt) { dt = dt; }
 
 void DirectSimulator::setSolver(Solver& solver) { solver = solver; }
 
-void DirectSimulator::setBodies(std::vector<Body>& b) { bodies = b; }
+void DirectSimulator::generateRandomBodies() {
+	bodies.clear();
 
-void DirectSimulator::calculateBodyAcceleration() {
+	std::default_random_engine generator(1616);
+	std::uniform_real_distribution<float> posDist(-1e3, 1e3);
+	std::uniform_real_distribution<float> velDist(-1e3, 1e3);
+	std::uniform_real_distribution<float> massDist(1e9, 1e10);
 
-	for(Body& b : bodies)
-		b.setAcceleration({0.f, 0.f});
-
-	for(int i = 0; i < bodies.size(); i++) {
-		for(int j = i+1; j < bodies.size(); j++) {
-
-			glm::vec2 r = bodies[i].getPosition() - bodies[j].getPosition();
-			float r_div = glm::pow(glm::pow(r.length(), 2) + EPSILON*EPSILON, 1.5);
-
-			r *= - G / r_div;
-			glm::vec2 acc_i = r * bodies[j].getMass();
-			glm::vec2 acc_j = - r * bodies[i].getMass();
-
-			bodies[i].addAcceleration(acc_i);
-			bodies[j].addAcceleration(acc_j);
-		}
-	}
+	for(int i = 0; i < N_BODIES; i++)
+		bodies.push_back(
+			Body(massDist(generator),
+			{posDist(generator), posDist(generator)},
+			{velDist(generator), velDist(generator)})
+		);
 }
 
 void DirectSimulator::simulate(float time_end) {
@@ -44,7 +37,7 @@ void DirectSimulator::simulate(float time_end) {
 void DirectSimulator::simulateStep() {
 	resultsLogger.startTimeMeasure();
 
-	calculateBodyAcceleration();
+	solver.calculateBodyAcceleration(bodies);
 	solver.solve(bodies, dt);
 
 	resultsLogger.endTimeMeasure();

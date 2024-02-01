@@ -8,14 +8,14 @@
 
 class ResultsLogger {
 	private:
-		std::vector<float> systemEnergy;
-		std::vector<float> iterationExecutionTime;
+		std::vector<double> systemEnergy;
+		std::vector<double> iterationExecutionTime;
 		std::chrono::high_resolution_clock::time_point startTime;
 
 	public:
 		ResultsLogger();
-		std::vector<float>& getSystemEnergy();
-		std::vector<float>& getIterationExecutionTime();
+		std::vector<double>& getSystemEnergy();
+		std::vector<double>& getIterationExecutionTime();
 
 		void startTimeMeasure();
 		void endTimeMeasure();

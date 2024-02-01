@@ -41,8 +41,8 @@ void DataParser::writeResultsDataToCSV(std::string csvPath, ResultsLogger& resul
 	file << "iterTime,totalEnergy" << std::endl;
 	std::string line;
 
-	std::vector<float>& systemEnergy = resultsLogger.getSystemEnergy();
-	std::vector<float>& iterationExecutionTime = resultsLogger.getIterationExecutionTime();
+	std::vector<double>& systemEnergy = resultsLogger.getSystemEnergy();
+	std::vector<double>& iterationExecutionTime = resultsLogger.getIterationExecutionTime();
 
 	for(int i = 0; i < systemEnergy.size(); ++i)
 		file << iterationExecutionTime[i] << "," << systemEnergy[i] << std::endl;

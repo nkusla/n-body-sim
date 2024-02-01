@@ -4,6 +4,7 @@
 #include <cmath>
 #include <vector>
 #include <iostream>
+#include <random>
 
 #include "Body.hpp"
 #include "Solver.hpp"
@@ -24,9 +25,8 @@ class DirectSimulator {
 		ResultsLogger& getResultsLogger();
 		void setDt(float dt);
 		void setSolver(Solver& solver);
-		void setBodies(std::vector<Body>& b);
+		void generateRandomBodies();
 
-		void calculateBodyAcceleration();
 		void simulate(float time);
 		void simulateStep();
 };
