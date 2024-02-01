@@ -5,7 +5,7 @@
 
 #define N_BODIES	100
 #define G			6.6743e-11
-#define EPSILON		1e-9
+#define EPSILON		0.1
 #define STEP		0.001
 
 #endif

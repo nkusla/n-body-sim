@@ -19,8 +19,7 @@ int main() {
 	std::vector<Body> bodies;
 	DataParser::readBodyDataFromCSV(csvDataPath, bodies);
 
-	DirectSimulator directSimulator(STEP, bodies, forwardEuler);
-
+	DirectSimulator directSimulator(STEP, bodies, semiImplicitEuler);
 	ApplicationWindow appWindow(1024, 768);
 
 	while(appWindow.checkApplicationClose()) {

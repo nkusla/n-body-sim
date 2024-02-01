@@ -12,8 +12,8 @@ class ApplicationWindow {
 	private:
 		GLFWwindow* window;
 		glm::vec2 screenSize;
-		float scaling_factor = 1e-3;
-		float scaling_step = 5e-6;
+		float scaling_factor = 1e-2;
+		float scaling_step = 1e-4;
 
 	public:
 		ApplicationWindow(int width, int height);
