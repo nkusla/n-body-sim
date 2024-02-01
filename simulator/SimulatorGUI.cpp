@@ -20,11 +20,8 @@ int main() {
 	DataParser::readBodyDataFromCSV(csvDataPath, bodies);
 
 	DirectSimulator directSimulator(STEP, bodies, forwardEuler);
-	//directSimulator.generateRandomBodies();
 
 	ApplicationWindow appWindow(1024, 768);
-
-	//directSimulator.simulate(1.f);
 
 	while(appWindow.checkApplicationClose()) {
 		appWindow.checKeyPressed();

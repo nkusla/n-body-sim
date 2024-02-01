@@ -12,7 +12,7 @@ ApplicationWindow::ApplicationWindow(int width, int height) {
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE);
 
 	screenSize = {width, height};
-	window = glfwCreateWindow(width, height, "N body simulation", NULL, NULL);
+	window = glfwCreateWindow(width, height, "N-body simulator", NULL, NULL);
 
 	if(window == NULL) {
 		std::cout << "Failed to open GLFW window" << std::endl;
@@ -21,18 +21,7 @@ ApplicationWindow::ApplicationWindow(int width, int height) {
 	}
 
 	glfwMakeContextCurrent(window);
-	if (glewInit() != GLEW_OK) {
-    	std::cout << "Failed to initialize GLEW!" << std::endl;
-    	return;
-	}
-
 	glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
-	glfwSetWindowUserPointer(window, this);
-
-	// glGenBuffers(1, &positionBuffer);
-	// glBindBuffer(GL_ARRAY_BUFFER, positionBuffer);
-	// glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
-	// glEnableVertexAttribArray(0);
 }
 
 GLFWwindow* ApplicationWindow::getWindow() { return window; }
