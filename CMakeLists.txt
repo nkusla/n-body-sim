@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.12)
-project(NBodySimulator)
+project(NBodySimulation)
 
 if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 11)
     message(FATAL_ERROR "GCC version 10 or newer is required.")
@@ -27,5 +27,5 @@ find_package(glfw3 REQUIRED)
 find_package(OpenGL REQUIRED)
 link_libraries(glm::glm glfw OpenGL::GL)
 
-add_executable(SimulatorGUI "simulator/SimulatorGUI.cpp" ${SOURCES})
-add_executable(SimulatorNoGUI "simulator/SimulatorNoGUI.cpp" ${SOURCES})
+add_executable(SimulationGUI "simulation/SimulationGUI.cpp" ${SOURCES})
+add_executable(SimulationNoGUI "simulation/SimulationNoGUI.cpp" ${SOURCES})
