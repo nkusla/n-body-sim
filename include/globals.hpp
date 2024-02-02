@@ -7,7 +7,7 @@
 #define G						6.6743e-11
 #define EPSILON					0.1
 #define STEP					0.001
-#define GLOBAL_QUADRANT_SIZE 	1e8
+#define GLOBAL_QUADRANT_SIZE 	1e3
 #define THETA					1.2
 
 #endif

@@ -1,6 +1,7 @@
 #include "../include/QuadtreeNode.hpp"
 
 QuadtreeNode::QuadtreeNode() :
+	bodyIndex(-1),
 	mass(0.f),
 	weightedPosition({0.f, 0.f}),
 	topLeft({0.f, 0.f}),
@@ -8,6 +9,7 @@ QuadtreeNode::QuadtreeNode() :
 	nodes(4) {}
 
 QuadtreeNode::QuadtreeNode(glm::vec2 topLeft, glm::vec2 bottomRight) :
+	bodyIndex(-1),
 	mass(0.f),
 	weightedPosition({0.f, 0.f}),
 	topLeft(topLeft),
@@ -19,7 +21,6 @@ QuadtreeNode::~QuadtreeNode() {
 		return;
 
 	for(QuadtreeNode* node : nodes) {
-		node->~QuadtreeNode();
 		delete node;
 	}
 }
@@ -32,7 +33,7 @@ glm::vec2 QuadtreeNode::getCenterOfMass() {
 	return weightedPosition / mass;
 }
 
-void QuadtreeNode::subdivideNote() {
+void QuadtreeNode::subdivideNode() {
 	nodes[0] = new QuadtreeNode(
 		{(topLeft.x + bottomRight.x) / 2, topLeft.y},
 		{bottomRight.x, (topLeft.y + bottomRight.y) / 2}
@@ -61,39 +62,79 @@ bool QuadtreeNode::checkIfPositionInQuadrant(glm::vec2 position) {
 	);
 }
 
-void QuadtreeNode::updateMassAndPosition(float m, glm::vec2 pos) {
+void QuadtreeNode::updateNodeData(float m, glm::vec2 pos, int bodyIdx) {
+	bodyIndex = bodyIdx;
 	mass += m;
 	weightedPosition += m * pos;
 }
 
-bool QuadtreeNode::recursivelyInsertBody(Body& b) {
-	if(!checkIfPositionInQuadrant(b.getPosition()))
+bool QuadtreeNode::recursivelyInsertBody(Body& newBody, int newBodyIndex) {
+	if(!checkIfPositionInQuadrant(newBody.getPosition()))
 		return false;
 
 	// Node is an empty leaf
 	if (mass == 0.f) {
-		updateMassAndPosition(b.getMass(), b.getPosition());
+		updateNodeData(newBody.getMass(), newBody.getPosition(), newBodyIndex);
 		return true;
 	}
 
 	// Node is an internal node with children
 	if (nodes[0] != nullptr) {
 		for(QuadtreeNode* node : nodes)
-			if(recursivelyInsertBody(b)) {
-				updateMassAndPosition(b.getMass(), b.getPosition());
+			if(recursivelyInsertBody(newBody, newBodyIndex)) {
+				updateNodeData(newBody.getMass(), newBody.getPosition(), -1);
 				return true;
 			}
 	}
 
-	// Node is a leaf with mass (body)
-	subdivideNote();
+	// Node is a leaf with mass (one body)
+	subdivideNode();
+	bool newBodyPassed = false;
+	bool nodeBodyPassed = false;
 	for(QuadtreeNode* node : nodes) {
-		if(node->checkIfPositionInQuadrant(weightedPosition))
-			node->updateMassAndPosition(mass, weightedPosition);
+		if(node->checkIfPositionInQuadrant(getCenterOfMass()) && !nodeBodyPassed) {
+			node->updateNodeData(mass, getCenterOfMass(), bodyIndex);
+			nodeBodyPassed = true;
+		}
 
-		if(node->checkIfPositionInQuadrant(b.getPosition()))
-			node->updateMassAndPosition(b.getMass(), b.getPosition());
+		if(node->checkIfPositionInQuadrant(newBody.getPosition()) && !newBodyPassed) {
+			node->updateNodeData(newBody.getMass(), newBody.getPosition(), newBodyIndex);
+			newBodyPassed = true;
+		}
 	}
-	updateMassAndPosition(b.getMass(), b.getPosition());
+
+	updateNodeData(newBody.getMass(), newBody.getPosition(), -1);
 	return true;
+}
+
+void QuadtreeNode::calculateBodyAcceleration(Body& b, float mass, glm::vec2 centerOfMass) {
+	glm::vec2 r = b.getPosition() - centerOfMass;
+	float r_div = glm::pow(glm::max(0.8f, glm::length(r)), 3);
+
+	r *= - G * mass / r_div;
+	b.addAcceleration(r);
+}
+
+void QuadtreeNode::recursivelyCalculateBodyAcceleration(Body& b, int idx, float theta) {
+	if(bodyIndex == idx || mass == 0.f)
+		return;
+
+	if(bodyIndex != -1) {
+		calculateBodyAcceleration(b, mass, getCenterOfMass());
+		return;
+	}
+
+	float d = glm::length(b.getPosition() - getCenterOfMass());
+	float s = bottomRight.x - topLeft.x;
+
+	// This subtree can be aproximated
+	// if(theta > s/d) {
+	// 	calculateBodyAcceleration(b, mass, getCenterOfMass());
+	// 	return;
+	// }
+
+	for(QuadtreeNode* node : nodes)
+		node->recursivelyCalculateBodyAcceleration(b, idx, theta);
+
+	return;
 }

@@ -7,13 +7,16 @@
 class BarnesHutSimulator : public Simulator {
 	private:
 		QuadtreeNode* root;
+		float rootRegionHalfWidth;
 		float theta;
 
 	public:
-		BarnesHutSimulator(std::vector<Body>& bodies, float dt, float rootRegionWidth, float theta);
+		BarnesHutSimulator(std::vector<Body>& bodies, float dt, float rootRegionHalfWidth, float theta);
 		~BarnesHutSimulator();
 
-		void constructQuadtree(std::vector<Body>& bodies);
+		void constructQuadtree();
+		void destroyQuadtree();
+		void calculateBodyAcceleration();
 		void simulateStep();
 };
 

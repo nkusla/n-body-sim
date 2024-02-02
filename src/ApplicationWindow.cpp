@@ -82,11 +82,12 @@ glm::vec2 ApplicationWindow::transformBodyPosition(glm::vec2 position) {
 void ApplicationWindow::displayBodies() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glPointSize(200.f * scaling_factor);
+
 	glBegin(GL_POINTS);
-		for(Body& b : simulator->getBodies()) {
-			glm::vec2 pos = transformBodyPosition(b.getPosition());
-			glVertex2f(pos.x, pos.y);
-		}
+	for(Body& b : simulator->getBodies()) {
+		glm::vec2 pos = transformBodyPosition(b.getPosition());
+		glVertex2f(pos.x, pos.y);
+	}
 	glEnd();
 }
 
@@ -119,14 +120,14 @@ void ApplicationWindow::displayAllWidgets() {
 	ImGui::Separator();
 
 	ImGui::Spacing(); ImGui::Spacing(); ImGui::Spacing();
-	ImGui::Text("Simulators");
-	displayOptionsWidget("##simulators", simulatorOptions,
-		sizeof(simulatorOptions)/sizeof(simulatorOptions[0]), selectedSimulator);
-
-	ImGui::Spacing(); ImGui::Spacing(); ImGui::Spacing();
 	ImGui::Text("Files");
 	displayOptionsWidget("##files", fileOptions,
 		sizeof(fileOptions)/sizeof(fileOptions[0]), selectedFile);
+
+	ImGui::Spacing(); ImGui::Spacing(); ImGui::Spacing();
+	ImGui::Text("Simulators");
+	displayOptionsWidget("##simulators", simulatorOptions,
+		sizeof(simulatorOptions)/sizeof(simulatorOptions[0]), selectedSimulator);
 
 	ImGui::Spacing(); ImGui::Spacing(); ImGui::Spacing();
 	ImGui::Text("Solvers");
