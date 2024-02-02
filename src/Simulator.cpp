@@ -9,8 +9,12 @@ ResultsLogger& Simulator::getResultsLogger() { return resultsLogger; }
 
 void Simulator::setDt(float dt) { dt = dt; }
 
-void Simulator::setSolver(Solver* pSolver) {
-	solver.reset(pSolver);
+void Simulator::setSolver(std::shared_ptr<Solver> pSolver) {
+	solver = pSolver;
+}
+
+std::vector<Body>& Simulator::getBodies() {
+	return bodies;
 }
 
 void Simulator::generateRandomBodies(float maxPos, float maxVel, float mass) {
@@ -26,6 +30,10 @@ void Simulator::generateRandomBodies(float maxPos, float maxVel, float mass) {
 			{posDist(generator), posDist(generator)},
 			{velDist(generator), velDist(generator)})
 		);
+}
+
+void Simulator::resetSimulation() {
+	resultsLogger.resetLoggerData();
 }
 
 void Simulator::simulate(float timeEnd) {

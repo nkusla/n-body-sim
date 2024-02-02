@@ -2,6 +2,9 @@
 
 TO-DO: Update README description...
 
+![](img/screenshot_01.png)
+
+### Examples
 <p align="center">
 	<img src="gifs/2_body.gif" alt="animated" />
 </p>

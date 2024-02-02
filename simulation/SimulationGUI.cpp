@@ -9,15 +9,15 @@
 
 int main() {
 
-	std::string csvDataPath = "../data/galaxy.csv";
 	std::string csvResultPath = "../results/result.csv";
-
 	std::vector<Body> bodies;
-	DataParser::readBodyDataFromCSV(csvDataPath, bodies);
 
-	DirectSimulator directSimulator(bodies, STEP);
-	directSimulator.setSolver(new SemiImplicitEuler());
+	std::shared_ptr<DirectSimulator> directSimulator(new DirectSimulator(bodies, STEP));
+	directSimulator->setSolver(std::make_shared<SemiImplicitEuler>());
+
 	ApplicationWindow appWindow(1366, 768);
+	appWindow.setSimulator(directSimulator);
+	appWindow.resetSimulator();
 
 	// while(glfwGetKey(appWindow.getWindow(), GLFW_KEY_SPACE) != GLFW_PRESS)
 	// 	glfwPollEvents();
@@ -25,17 +25,12 @@ int main() {
 	while(appWindow.checkApplicationClose()) {
 		appWindow.checKeyPressed();
 
-		appWindow.displayBodies(bodies);
-		directSimulator.simulateStep();
-
-		appWindow.displayWidgets();
-        glfwSwapBuffers(appWindow.getWindow());
-        glfwPollEvents();
+		appWindow.runFrame();
 	}
 
 	appWindow.closeApplication();
 
-	DataParser::writeResultsDataToCSV(csvResultPath, directSimulator.getResultsLogger());
+	DataParser::writeResultsDataToCSV(csvResultPath, directSimulator->getResultsLogger());
 
 	return 0;
 }

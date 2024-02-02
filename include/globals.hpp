@@ -10,17 +10,4 @@
 
 #endif
 
-static const char* fileOptions[] = {
-	"2_body",
-	"2_body_orbit",
-	"4_body",
-	"galaxy"
-};
-
-static const char* solverOptions[] = {
-	"ForwardEuler",
-	"SemiImplicitEuler",
-	"Verlet"
-};
-
 #endif

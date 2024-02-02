@@ -1,5 +1,18 @@
 #include "../include/ApplicationWindow.hpp"
 
+const char* ApplicationWindow::fileOptions[] = {
+	"2_body",
+	"2_body_orbit",
+	"4_body",
+	"galaxy"
+};
+
+const char* ApplicationWindow::solverOptions[] = {
+	"SemiImplicitEuler",
+	"ForwardEuler",
+	"Verlet"
+};
+
 ApplicationWindow::ApplicationWindow(int width, int height) {
 	if(!glfwInit()) {
 		std::cout << "Failed to initialize GLFW!" << std::endl;
@@ -31,6 +44,8 @@ ApplicationWindow::ApplicationWindow(int width, int height) {
 
 GLFWwindow* ApplicationWindow::getWindow() { return window; }
 
+void ApplicationWindow::setSimulator(std::shared_ptr<Simulator> pSimulator) { simulator = pSimulator; }
+
 bool ApplicationWindow::checkApplicationClose() {
 	return (glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS
 		&& glfwWindowShouldClose(window) == 0);
@@ -49,11 +64,11 @@ glm::vec2 ApplicationWindow::transformBodyPosition(glm::vec2 position) {
 	return position * scaling_factor;
 }
 
-void ApplicationWindow::displayBodies(std::vector<Body>& bodies) {
+void ApplicationWindow::displayBodies() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glPointSize(200.f * scaling_factor);
 	glBegin(GL_POINTS);
-		for(Body& b : bodies) {
+		for(Body& b : simulator->getBodies()) {
 			glm::vec2 pos = transformBodyPosition(b.getPosition());
 			glVertex2f(pos.x, pos.y);
 		}
@@ -71,53 +86,82 @@ void ApplicationWindow::checKeyPressed() {
 		return;
 }
 
-void ApplicationWindow::displayWidgets() {
-    static int selectedFile = 0;
-	static int selectedSolver = 0;
-
+void ApplicationWindow::displayAllWidgets() {
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
 
-	ImGui::Begin("Options", nullptr, ImGuiWindowFlags_NoMove);
-		ImGui::SetWindowPos(ImVec2(screenSize.x - 200, 0));
-		ImGui::SetWindowSize(ImVec2(200, 300));
+	ImGui::Begin("##Control", nullptr, ImGuiWindowFlags_NoMove);
+	ImGui::SetWindowPos(ImVec2(screenSize.x - 200, 0));
+	ImGui::SetWindowSize(ImVec2(200, 220));
 
-		ImGui::Text("Files");
-    	if (ImGui::BeginCombo("##files", fileOptions[selectedFile])) {
-			for (int i = 0; i < IM_ARRAYSIZE(fileOptions); i++) {
-				const bool isSelected = (selectedFile == i);
-				if (ImGui::Selectable(fileOptions[i], isSelected))
-					selectedFile = i;
+	std::string nBodies = "N bodies: " + std::to_string(simulator->getBodies().size());
+	ImGui::Text(nBodies.c_str());
+	ImGui::Spacing(); ImGui::Spacing();
+	std::string scaling = "Scaling facator: " + std::to_string(scaling_factor);
+	ImGui::Text(scaling.c_str());
 
-				// Set the initial focus on the selected option
-				if (isSelected)
-					ImGui::SetItemDefaultFocus();
-			}
-			ImGui::EndCombo();
-    	}
+	ImGui::Separator();
 
-		ImGui::Spacing(); ImGui::Spacing(); ImGui::Spacing();
-		ImGui::Text("Solvers");
-    	if (ImGui::BeginCombo("##solvers", solverOptions[selectedSolver])) {
-			for (int i = 0; i < IM_ARRAYSIZE(solverOptions); i++) {
-				const bool isSelected = (selectedSolver == i);
-				if (ImGui::Selectable(solverOptions[i], isSelected))
-					selectedSolver = i;
+	ImGui::Spacing(); ImGui::Spacing(); ImGui::Spacing();
+	ImGui::Text("Files");
+	displayOptionsWidget("##files", fileOptions,
+		sizeof(fileOptions)/sizeof(fileOptions[0]), selectedFile);
 
-				// Set the initial focus on the selected option
-				if (isSelected)
-					ImGui::SetItemDefaultFocus();
-			}
-			ImGui::EndCombo();
-    	}
+	ImGui::Spacing(); ImGui::Spacing(); ImGui::Spacing();
+	ImGui::Text("Solvers");
+	displayOptionsWidget("##solvers", solverOptions,
+		sizeof(solverOptions)/sizeof(solverOptions[0]), selectedSolver);
 
-		ImGui::Spacing(); ImGui::Spacing(); ImGui::Spacing();
-		ImGui::Button("Stop");
-		ImGui::SameLine();
-		ImGui::Button("Reset");
+	ImGui::Spacing(); ImGui::Spacing(); ImGui::Spacing();
+	if(ImGui::Button("Play/Stop"))
+		simulationStopped = !simulationStopped;
+
+	ImGui::SameLine();
+	if(ImGui::Button("Reset"))
+		resetSimulator();
 	ImGui::End();
 
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
+
+void ApplicationWindow::displayOptionsWidget(const char* name, const char* options[], int numOptions, int& selectedOption) {
+	if (ImGui::BeginCombo(name, options[selectedOption])) {
+		for (int i = 0; i < numOptions; i++) {
+			const bool isSelected = (selectedOption == i);
+			if (ImGui::Selectable(options[i], isSelected)) {
+				selectedOption = i;
+				resetSimulator();
+			}
+
+			// Set the initial focus on the selected option
+			if (isSelected)
+				ImGui::SetItemDefaultFocus();
+		}
+		ImGui::EndCombo();
+	}
+}
+
+void ApplicationWindow::resetSimulator() {
+	simulator->resetSimulation();
+	std::string path = "../data/" + std::string(fileOptions[selectedFile]) + ".csv";
+	DataParser::readBodyDataFromCSV(path, simulator->getBodies());
+
+	switch(selectedSolver) {
+		case 0: simulator->setSolver(std::make_shared<SemiImplicitEuler>()); break;
+		case 1: simulator->setSolver(std::make_shared<ForwardEuler>()); break;
+		case 2: simulator->setSolver(std::make_shared<Verlet>()); break;
+	}
+}
+
+void ApplicationWindow::runFrame() {
+	displayBodies();
+	displayAllWidgets();
+
+	if(!simulationStopped)
+		simulator->simulateStep();
+
+	glfwSwapBuffers(window);
+	glfwPollEvents();
+};
