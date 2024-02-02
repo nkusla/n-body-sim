@@ -13,6 +13,7 @@ class DataParser {
 	public:
 		static void readBodyDataFromCSV(std::string csvPath, std::vector<Body>& bodies);
 		static void writeResultsDataToCSV(std::string csvPath, ResultsLogger& resultsLogger);
+		static void writeBodyDataToCSV(std::string csvPath, std::vector<Body>& bodies);
 };
 
 #endif

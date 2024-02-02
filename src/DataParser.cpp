@@ -49,3 +49,22 @@ void DataParser::writeResultsDataToCSV(std::string csvPath, ResultsLogger& resul
 
 	file.close();
 }
+
+void DataParser::writeBodyDataToCSV(std::string csvPath, std::vector<Body>& bodies) {
+	std::ofstream file(csvPath);
+
+	if(!file.is_open()) {
+		std::cout << "Error opening file!" << std::endl;
+		return;
+	}
+
+	file << "mass,x,y,vx,vy" << std::endl;
+
+	for(Body& b : bodies) {
+		file << b.getMass() << ","
+		<< b.getPosition().x << "," << b.getPosition().y << ","
+		<< b.getVelocity().x << "," << b.getVelocity().y << std::endl;
+	}
+
+	file.close();
+}

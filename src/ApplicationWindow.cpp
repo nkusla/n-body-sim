@@ -42,7 +42,7 @@ glm::vec2 ApplicationWindow::transformPosition(glm::vec2 position) {
 
 void ApplicationWindow::displayBodies(std::vector<Body>& bodies) {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glPointSize(5.f);
+	glPointSize(200.f * scaling_factor);
 	glBegin(GL_POINTS);
 		for(Body& b : bodies) {
 			glm::vec2 pos = transformPosition(b.getPosition());

@@ -9,7 +9,7 @@
 
 int main() {
 
-	std::string csvDataPath = "../data/2a_body.csv";
+	std::string csvDataPath = "../data/2_body.csv";
 	std::string csvResultPath = "../results/result.csv";
 
 	std::vector<Body> bodies;
@@ -17,8 +17,10 @@ int main() {
 
 	DirectSimulator directSimulator(bodies, STEP);
 	directSimulator.setSolver(new SemiImplicitEuler());
-
 	ApplicationWindow appWindow(1366, 768);
+
+	// while(glfwGetKey(appWindow.getWindow(), GLFW_KEY_SPACE) != GLFW_PRESS)
+	// 	glfwPollEvents();
 
 	while(appWindow.checkApplicationClose()) {
 		appWindow.checKeyPressed();
