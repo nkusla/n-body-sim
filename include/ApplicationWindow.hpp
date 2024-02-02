@@ -25,15 +25,22 @@ class ApplicationWindow {
 		bool simulationStopped = false;
 		int selectedFile = 0;
 		int selectedSolver = 0;
+		int selectedSimulator = 0;
 
 		std::shared_ptr<Simulator> simulator;
 
 	public:
 		static const char* fileOptions[];
+
 		static const char* solverOptions[];
+		static std::vector<std::shared_ptr<Solver>> solvers;
+
+		static const char* simulatorOptions[];
+		static std::vector<std::shared_ptr<Simulator>> simulators;
 
 		ApplicationWindow(int width, int height);
 		GLFWwindow* getWindow();
+		std::shared_ptr<Simulator> getSimulator();
 		void setSimulator(std::shared_ptr<Simulator> pSimulator);
 
 		bool checkApplicationClose();

@@ -13,6 +13,15 @@ const char* ApplicationWindow::solverOptions[] = {
 	"Verlet"
 };
 
+const char* ApplicationWindow::simulatorOptions[] = {
+	"Direct simulator",
+	"Barnes-Hut simulator"
+};
+
+std::vector<std::shared_ptr<Simulator>> ApplicationWindow::simulators;
+
+std::vector<std::shared_ptr<Solver>> ApplicationWindow::solvers;
+
 ApplicationWindow::ApplicationWindow(int width, int height) {
 	if(!glfwInit()) {
 		std::cout << "Failed to initialize GLFW!" << std::endl;
@@ -40,9 +49,15 @@ ApplicationWindow::ApplicationWindow(int width, int height) {
 	ImGuiIO& io = ImGui::GetIO(); (void)io;
 	ImGui_ImplGlfw_InitForOpenGL(window, true);
 	ImGui_ImplOpenGL3_Init("#version 330");
+
+	simulator = simulators[0];
 }
 
 GLFWwindow* ApplicationWindow::getWindow() { return window; }
+
+std::shared_ptr<Simulator> ApplicationWindow::getSimulator() {
+	return simulator;
+}
 
 void ApplicationWindow::setSimulator(std::shared_ptr<Simulator> pSimulator) { simulator = pSimulator; }
 
@@ -93,7 +108,7 @@ void ApplicationWindow::displayAllWidgets() {
 
 	ImGui::Begin("##Control", nullptr, ImGuiWindowFlags_NoMove);
 	ImGui::SetWindowPos(ImVec2(screenSize.x - 200, 0));
-	ImGui::SetWindowSize(ImVec2(200, 220));
+	ImGui::SetWindowSize(ImVec2(200, 270));
 
 	std::string nBodies = "N bodies: " + std::to_string(simulator->getBodies().size());
 	ImGui::Text(nBodies.c_str());
@@ -102,6 +117,11 @@ void ApplicationWindow::displayAllWidgets() {
 	ImGui::Text(scaling.c_str());
 
 	ImGui::Separator();
+
+	ImGui::Spacing(); ImGui::Spacing(); ImGui::Spacing();
+	ImGui::Text("Simulators");
+	displayOptionsWidget("##simulators", simulatorOptions,
+		sizeof(simulatorOptions)/sizeof(simulatorOptions[0]), selectedSimulator);
 
 	ImGui::Spacing(); ImGui::Spacing(); ImGui::Spacing();
 	ImGui::Text("Files");
@@ -144,15 +164,12 @@ void ApplicationWindow::displayOptionsWidget(const char* name, const char* optio
 }
 
 void ApplicationWindow::resetSimulator() {
+	simulator = simulators[selectedSimulator];
 	simulator->resetSimulation();
 	std::string path = "../data/" + std::string(fileOptions[selectedFile]) + ".csv";
 	DataParser::readBodyDataFromCSV(path, simulator->getBodies());
 
-	switch(selectedSolver) {
-		case 0: simulator->setSolver(std::make_shared<SemiImplicitEuler>()); break;
-		case 1: simulator->setSolver(std::make_shared<ForwardEuler>()); break;
-		case 2: simulator->setSolver(std::make_shared<Verlet>()); break;
-	}
+	simulator->setSolver(solvers[selectedSolver]);
 }
 
 void ApplicationWindow::runFrame() {
