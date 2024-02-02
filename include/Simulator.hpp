@@ -8,7 +8,7 @@
 #include "Body.hpp"
 #include "Solver.hpp"
 #include "ResultsLogger.hpp"
-#include "params.hpp"
+#include "globals.hpp"
 
 class Simulator {
 	protected:

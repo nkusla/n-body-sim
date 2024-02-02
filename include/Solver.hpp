@@ -1,7 +1,7 @@
 #ifndef SOLVER_H
 #define SOLVER_H
 
-#include "params.hpp"
+#include "globals.hpp"
 #include "Body.hpp"
 #include <vector>
 

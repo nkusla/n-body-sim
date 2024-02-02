@@ -20,12 +20,14 @@ else()
 endif()
 
 file(GLOB SOURCES "src/*.cpp")
+file(GLOB IMGUI "imgui/*.cpp")
 include_directories(include)
+include_directories(imgui)
 
 find_package(glm REQUIRED)
 find_package(glfw3 REQUIRED)
 find_package(OpenGL REQUIRED)
 link_libraries(glm::glm glfw OpenGL::GL)
 
-add_executable(SimulationGUI "simulation/SimulationGUI.cpp" ${SOURCES})
-add_executable(SimulationNoGUI "simulation/SimulationNoGUI.cpp" ${SOURCES})
+add_executable(SimulationGUI "simulation/SimulationGUI.cpp" ${SOURCES} ${IMGUI})
+add_executable(SimulationNoGUI "simulation/SimulationNoGUI.cpp" ${SOURCES} ${IMGUI})

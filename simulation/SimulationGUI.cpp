@@ -9,7 +9,7 @@
 
 int main() {
 
-	std::string csvDataPath = "../data/2_body.csv";
+	std::string csvDataPath = "../data/galaxy.csv";
 	std::string csvResultPath = "../results/result.csv";
 
 	std::vector<Body> bodies;
@@ -24,9 +24,11 @@ int main() {
 
 	while(appWindow.checkApplicationClose()) {
 		appWindow.checKeyPressed();
+
 		appWindow.displayBodies(bodies);
 		directSimulator.simulateStep();
 
+		appWindow.displayWidgets();
         glfwSwapBuffers(appWindow.getWindow());
         glfwPollEvents();
 	}

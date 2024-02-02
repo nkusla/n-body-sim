@@ -4,7 +4,7 @@
 #include <vector>
 #include <chrono>
 #include "Body.hpp"
-#include "params.hpp"
+#include "globals.hpp"
 
 class ResultsLogger {
 	private:
