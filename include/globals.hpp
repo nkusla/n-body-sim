@@ -8,8 +8,8 @@
 #define EPSILON					0.1
 #define STEP					0.001
 #define GLOBAL_QUADRANT_SIZE 	1e8
-#define THETA					1.3
-#define MAX_QUADTREE_DEPTH		70
+#define THETA					1.2
+#define MAX_QUADTREE_DEPTH		80
 #define MAX_BODY_PER_NODE		5
 
 #endif

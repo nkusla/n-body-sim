@@ -21,6 +21,8 @@ class SemiImplicitEuler : public Solver {
 };
 
 class Verlet : public Solver {
+	std::vector<glm::vec2> previousPosition;
+
 	public:
 		void solve(std::vector<Body>& bodies, float dt);
 };
