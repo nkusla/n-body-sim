@@ -7,6 +7,7 @@
 
 class Solver {
 	public:
+		virtual void initSolver(std::vector<Body>& bodies, float dt) {}
 		virtual void solve(std::vector<Body>& bodies, float dt) {}
 };
 
@@ -24,6 +25,7 @@ class Verlet : public Solver {
 	std::vector<glm::vec2> previousPosition;
 
 	public:
+		void initSolver(std::vector<Body>& bodies, float dt);
 		void solve(std::vector<Body>& bodies, float dt);
 };
 

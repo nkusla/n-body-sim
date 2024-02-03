@@ -40,10 +40,12 @@ void Simulator::generateRandomBodies(float maxPos, float maxVel, float mass) {
 
 void Simulator::resetSimulation() {
 	elapsedTime = 0.f;
+	solver->initSolver(bodies, dt);
 	resultsLogger.resetLoggerData();
 }
 
 void Simulator::simulate(float timeEnd) {
+	resetSimulation();
 	for(float tick = 0.f; tick < timeEnd; tick += dt) {
 		simulateStep();
 	}

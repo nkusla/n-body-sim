@@ -162,6 +162,7 @@ void ApplicationWindow::displayAllWidgets() {
 	ImGui::SameLine();
 	if(ImGui::Button("Radnom")) {
 		simulator->generateRandomBodies(10, 5e1, 1e14);
+		simulator->resetSimulation();
 		//DataParser::writeBodyDataToCSV("../data/3000_galaxy.csv", simulator->getBodies());
 	}
 
@@ -189,12 +190,13 @@ void ApplicationWindow::displayOptionsWidget(const char* name, const char* optio
 }
 
 void ApplicationWindow::resetSimulator() {
-	simulator = simulators[selectedSimulator];
-	simulator->resetSimulation();
 	std::string path = "../data/" + std::string(fileOptions[selectedFile]) + ".csv";
 	DataParser::readBodyDataFromCSV(path, simulator->getBodies());
 
+	simulator = simulators[selectedSimulator];
 	simulator->setSolver(solvers[selectedSolver]);
+	simulator->setDt(Globals::STEP);
+	simulator->resetSimulation();
 }
 
 void ApplicationWindow::runFrame() {

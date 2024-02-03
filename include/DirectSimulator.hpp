@@ -16,5 +16,4 @@ class DirectSimulator : public Simulator {
 		void simulateStep();
 };
 
-
 #endif

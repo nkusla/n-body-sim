@@ -21,7 +21,7 @@ class Body {
 		glm::vec2 getAcceleration();
 
 		void setMass(float mass);
-		void setPosition(glm::vec2& pos);
+		void setPosition(glm::vec2 pos);
 		void setVelocity(glm::vec2 vel);
 		void setAcceleration(glm::vec2 acc);
 

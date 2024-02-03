@@ -16,7 +16,7 @@ if (DEBUG)
 	add_compile_options(-g)
 else()
 	message("Building in RELEASE mode")
-	add_compile_options(-O3 -DNDEBUG)
+	add_compile_options(-O3 -march=native -DNDEBUG)
 endif()
 
 file(GLOB SOURCES "src/*.cpp")
