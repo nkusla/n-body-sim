@@ -8,26 +8,28 @@
 
 class QuadtreeNode {
 	private:
-		int bodyIndex;
-		float mass;
-		glm::vec2 weightedPosition;
+		int depth;
 		glm::vec2 topLeft;
 		glm::vec2 bottomRight;
+		float totalMass;
+		glm::vec2 weightedPosition;
 		std::vector<QuadtreeNode*> nodes;
+		std::vector<int> bodyIndex;
+		std::vector<Body>& bodies;
 
 	public:
-		QuadtreeNode();
-		QuadtreeNode(glm::vec2 topLeft, glm::vec2 bottomRight);
+		//QuadtreeNode();
+		QuadtreeNode(glm::vec2 topLeft, glm::vec2 bottomRight, int depth, std::vector<Body>& bodies);
 		~QuadtreeNode();
 
 		float getWidth();
 		glm::vec2 getCenterOfMass();
-		void subdivideNode();
+		bool subdivideNode();
 		bool checkIfPositionInQuadrant(glm::vec2 position);
-		bool recursivelyInsertBody(Body& newBody, int newBodyIndex);
-		void updateNodeData(float m, glm::vec2 pos, int bodyIdx);
-		void calculateBodyAcceleration(Body& b, float mass, glm::vec2 centerOfMass);
-		void recursivelyCalculateBodyAcceleration(Body& b, int idx, float theta);
+		bool recursivelyInsertBody(int newBodyIndex);
+		void updateCenterOfMass(int bodyIndex);
+		void calculateBodyAcceleration(int bIndex, float mass, glm::vec2 centerOfMass);
+		void recursivelyCalculateBodyAcceleration(int bIndex);
 };
 
 #endif

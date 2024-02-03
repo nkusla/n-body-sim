@@ -9,6 +9,7 @@ class BarnesHutSimulator : public Simulator {
 		QuadtreeNode* root;
 		float rootRegionHalfWidth;
 		float theta;
+		float time = 0.0f;
 
 	public:
 		BarnesHutSimulator(std::vector<Body>& bodies, float dt, float rootRegionHalfWidth, float theta);

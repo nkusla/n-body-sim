@@ -13,6 +13,8 @@ int main() {
 	std::string csvResultPath = "../results/result.csv";
 	std::vector<Body> bodies;
 
+
+
 	ApplicationWindow::simulators = {
 		std::make_shared<DirectSimulator>(bodies, STEP),
 		std::make_shared<BarnesHutSimulator>(bodies, STEP, GLOBAL_QUADRANT_SIZE, THETA)

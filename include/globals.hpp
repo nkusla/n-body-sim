@@ -9,6 +9,8 @@
 #define STEP					0.001
 #define GLOBAL_QUADRANT_SIZE 	1e3
 #define THETA					1.2
+#define MAX_QUADTREE_DEPTH		70
+#define MAX_BODY_PER_NODE		5
 
 #endif
 

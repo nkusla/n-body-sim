@@ -12,26 +12,28 @@ BarnesHutSimulator::~BarnesHutSimulator() {
 void BarnesHutSimulator::constructQuadtree() {
 	root = new QuadtreeNode(
 		{-rootRegionHalfWidth, rootRegionHalfWidth},
-		{rootRegionHalfWidth, -rootRegionHalfWidth}
+		{rootRegionHalfWidth, -rootRegionHalfWidth},
+		-1, bodies
 	);
 
 	for(int i = 0; i < bodies.size(); i++)
-		root->recursivelyInsertBody(bodies[i], i);
+		root->recursivelyInsertBody(i);
 }
 
 void BarnesHutSimulator::destroyQuadtree() {
-	if(root != nullptr)
-		delete root;
+	delete root;
+	root = nullptr;
 }
 
 void BarnesHutSimulator::calculateBodyAcceleration() {
 	for(int i = 0; i < bodies.size(); i++) {
 		bodies[i].setAcceleration({0.f, 0.f});
-		root->recursivelyCalculateBodyAcceleration(bodies[i], i, theta);
+		root->recursivelyCalculateBodyAcceleration(i);
 	}
 }
 
 void BarnesHutSimulator::simulateStep() {
+	time += dt;
 	resultsLogger.startTimeMeasure();
 
 	constructQuadtree();
