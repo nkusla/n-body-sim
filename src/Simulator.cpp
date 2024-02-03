@@ -8,7 +8,7 @@ Simulator::Simulator(std::vector<Body>& bodies, float dt) :
 
 ResultsLogger& Simulator::getResultsLogger() { return resultsLogger; }
 
-void Simulator::setDt(float dt) { dt = dt; }
+void Simulator::setDt(float step) { dt = step; }
 
 void Simulator::setSolver(std::shared_ptr<Solver> pSolver) {
 	solver = pSolver;

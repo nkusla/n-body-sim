@@ -8,10 +8,9 @@ class BarnesHutSimulator : public Simulator {
 	private:
 		QuadtreeNode* root;
 		float rootRegionHalfWidth;
-		float theta;
 
 	public:
-		BarnesHutSimulator(std::vector<Body>& bodies, float dt, float rootRegionHalfWidth, float theta);
+		BarnesHutSimulator(std::vector<Body>& bodies, float dt, float rootRegionHalfWidth);
 		~BarnesHutSimulator();
 
 		void constructQuadtree();

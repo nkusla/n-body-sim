@@ -15,7 +15,7 @@ int main() {
 
 	ApplicationWindow::simulators = {
 		std::make_shared<DirectSimulator>(bodies, Globals::STEP),
-		std::make_shared<BarnesHutSimulator>(bodies, Globals::STEP, Globals::GLOBAL_QUADRANT_SIZE, Globals::THETA)
+		std::make_shared<BarnesHutSimulator>(bodies, Globals::STEP, Globals::GLOBAL_QUADRANT_SIZE)
 	};
 
 	ApplicationWindow::solvers = {

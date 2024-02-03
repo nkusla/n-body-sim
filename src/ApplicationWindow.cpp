@@ -89,7 +89,7 @@ glm::vec2 ApplicationWindow::transformBodyPosition(glm::vec2 position) {
 
 void ApplicationWindow::displayBodies() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glPointSize(200.f * scaling_factor);
+	glPointSize(300.f * scaling_factor);
 
 	glBegin(GL_POINTS);
 	for(Body& b : simulator->getBodies()) {
@@ -117,7 +117,7 @@ void ApplicationWindow::displayAllWidgets() {
 
 	ImGui::Begin("##Control", nullptr, ImGuiWindowFlags_NoMove);
 	ImGui::SetWindowPos(ImVec2(screenSize.x - 200, 0));
-	ImGui::SetWindowSize(ImVec2(200, 300));
+	ImGui::SetWindowSize(ImVec2(200, 370));
 
 	std::string nBodies = "N bodies: " + std::to_string(simulator->getBodies().size());
 	ImGui::Text(nBodies.c_str());
@@ -128,7 +128,12 @@ void ApplicationWindow::displayAllWidgets() {
 	ImGui::Spacing(); ImGui::Spacing();
 	std::string scaling = "Scaling facator: " + std::to_string(scaling_factor);
 	ImGui::Text(scaling.c_str());
+	ImGui::Separator();
 
+	ImGui::Spacing(); ImGui::Spacing(); ImGui::Spacing();
+	ImGui::SliderFloat("Step", &Globals::STEP, 0.001f, 0.01f);
+	simulator->setDt(Globals::STEP);
+	ImGui::SliderFloat("Theta", &Globals::THETA, 0.0f, 2.5f);
 	ImGui::Separator();
 
 	ImGui::Spacing(); ImGui::Spacing(); ImGui::Spacing();

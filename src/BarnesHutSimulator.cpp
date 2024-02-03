@@ -1,9 +1,8 @@
 #include "../include/BarnesHutSimulator.hpp"
 
-BarnesHutSimulator::BarnesHutSimulator(std::vector<Body>& bodies, float dt, float rootRegionHalfWidth, float theta) :
+BarnesHutSimulator::BarnesHutSimulator(std::vector<Body>& bodies, float dt, float rootRegionHalfWidth) :
 	Simulator(bodies, dt),
-	rootRegionHalfWidth(rootRegionHalfWidth),
-	theta(theta) {}
+	rootRegionHalfWidth(rootRegionHalfWidth) {}
 
 BarnesHutSimulator::~BarnesHutSimulator() {
 	destroyQuadtree();
