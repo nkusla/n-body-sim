@@ -3,8 +3,13 @@
 const char* ApplicationWindow::fileOptions[] = {
 	"2_body",
 	"2_body_orbit",
-	"4_body",
-	"galaxy"
+	"4_body_collision",
+	"500_galaxy",
+	"1000_galaxy",
+	"1500_galaxy",
+	"2000_galaxy",
+	"2500_galaxy",
+	"3000_galaxy",
 };
 
 const char* ApplicationWindow::solverOptions[] = {
@@ -31,6 +36,9 @@ ApplicationWindow::ApplicationWindow(int width, int height) {
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE);
+
+	glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+    glfwWindowHint(GLFW_MAXIMIZED, GLFW_FALSE);
 
 	screenSize = {width, height};
 	window = glfwCreateWindow(width, height, "N-body simulator", NULL, NULL);
@@ -109,10 +117,14 @@ void ApplicationWindow::displayAllWidgets() {
 
 	ImGui::Begin("##Control", nullptr, ImGuiWindowFlags_NoMove);
 	ImGui::SetWindowPos(ImVec2(screenSize.x - 200, 0));
-	ImGui::SetWindowSize(ImVec2(200, 270));
+	ImGui::SetWindowSize(ImVec2(200, 300));
 
 	std::string nBodies = "N bodies: " + std::to_string(simulator->getBodies().size());
 	ImGui::Text(nBodies.c_str());
+	ImGui::Spacing(); ImGui::Spacing();
+
+	std::string elapsedTime = "Elapsed time: " + std::to_string(simulator->getElapsedTime());
+	ImGui::Text(elapsedTime.c_str());
 	ImGui::Spacing(); ImGui::Spacing();
 	std::string scaling = "Scaling facator: " + std::to_string(scaling_factor);
 	ImGui::Text(scaling.c_str());
@@ -141,6 +153,13 @@ void ApplicationWindow::displayAllWidgets() {
 	ImGui::SameLine();
 	if(ImGui::Button("Reset"))
 		resetSimulator();
+
+	ImGui::SameLine();
+	if(ImGui::Button("Radnom")) {
+		simulator->generateRandomBodies(10, 5e1, 1e14);
+		//DataParser::writeBodyDataToCSV("../data/3000_galaxy.csv", simulator->getBodies());
+	}
+
 	ImGui::End();
 
 	ImGui::Render();

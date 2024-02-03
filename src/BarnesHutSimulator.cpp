@@ -33,7 +33,6 @@ void BarnesHutSimulator::calculateBodyAcceleration() {
 }
 
 void BarnesHutSimulator::simulateStep() {
-	time += dt;
 	resultsLogger.startTimeMeasure();
 
 	constructQuadtree();
@@ -43,4 +42,5 @@ void BarnesHutSimulator::simulateStep() {
 
 	resultsLogger.endTimeMeasure();
 	resultsLogger.logSystemEnergy(bodies);
+	elapsedTime += dt;
 }

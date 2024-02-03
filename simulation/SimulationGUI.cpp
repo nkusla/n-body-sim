@@ -13,8 +13,6 @@ int main() {
 	std::string csvResultPath = "../results/result.csv";
 	std::vector<Body> bodies;
 
-
-
 	ApplicationWindow::simulators = {
 		std::make_shared<DirectSimulator>(bodies, STEP),
 		std::make_shared<BarnesHutSimulator>(bodies, STEP, GLOBAL_QUADRANT_SIZE, THETA)
@@ -28,9 +26,6 @@ int main() {
 
 	ApplicationWindow appWindow(1366, 768);
 	appWindow.resetSimulator();
-
-	// while(glfwGetKey(appWindow.getWindow(), GLFW_KEY_SPACE) != GLFW_PRESS)
-	// 	glfwPollEvents();
 
 	while(appWindow.checkApplicationClose()) {
 		appWindow.checKeyPressed();

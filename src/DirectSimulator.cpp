@@ -41,4 +41,5 @@ void DirectSimulator::simulateStep() {
 
 	resultsLogger.endTimeMeasure();
 	resultsLogger.logSystemEnergy(bodies);
+	elapsedTime += dt;
 }

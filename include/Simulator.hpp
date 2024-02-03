@@ -16,6 +16,7 @@ class Simulator {
 		std::vector<Body>& bodies;
 		std::shared_ptr<Solver> solver;
 		ResultsLogger resultsLogger;
+		float elapsedTime;
 
 	public:
 		Simulator(std::vector<Body>& bodies, float dt);
@@ -24,6 +25,7 @@ class Simulator {
 		void setDt(float dt);
 		void setSolver(std::shared_ptr<Solver> pSolver);
 		std::vector<Body>& getBodies();
+		float getElapsedTime();
 		void generateRandomBodies(float maxPos, float maxVel, float mass);
 
 		void resetSimulation();
