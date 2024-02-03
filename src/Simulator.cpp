@@ -30,7 +30,7 @@ void Simulator::generateRandomBodies(float maxPos, float maxVel, float mass) {
 	std::uniform_real_distribution<float> posDist(-maxPos, maxPos);
 	std::uniform_real_distribution<float> velDist(-maxVel, maxVel);
 
-	for(int i = 0; i < N_RANDOM_BODIES; i++)
+	for(int i = 0; i < Globals::N_RANDOM_BODIES; i++)
 		bodies.push_back(
 			Body(mass,
 			{posDist(generator), posDist(generator)},

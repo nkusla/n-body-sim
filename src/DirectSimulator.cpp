@@ -5,11 +5,11 @@ DirectSimulator::DirectSimulator(std::vector<Body>& bodies, float dt) :
 
 float DirectSimulator::calculateDistanceWitSoftening(glm::vec2 r) {
 	return glm::pow(
-		glm::pow(glm::length(r), 2) + EPSILON*EPSILON, 1.5);
+		glm::pow(glm::length(r), 2) + Globals::EPSILON * Globals::EPSILON, 1.5);
 }
 
 float DirectSimulator::calculateDistanceWithMaxCut(glm::vec2 r) {
-	float r_mag = glm::max(0.8f, glm::length(r));
+	float r_mag = glm::max(Globals::EPSILON, glm::length(r));
 	return glm::pow(r_mag, 3);
 }
 
@@ -23,7 +23,7 @@ void DirectSimulator::calculateBodyAcceleration() {
 			glm::vec2 r = bodies[i].getPosition() - bodies[j].getPosition();
 			float r_div = calculateDistanceWithMaxCut(r);
 
-			r *= - G / r_div;
+			r *= - Globals::G / r_div;
 			glm::vec2 acc_i = r * bodies[j].getMass();
 			glm::vec2 acc_j = - r * bodies[i].getMass();
 

@@ -14,8 +14,8 @@ int main() {
 	std::vector<Body> bodies;
 
 	ApplicationWindow::simulators = {
-		std::make_shared<DirectSimulator>(bodies, STEP),
-		std::make_shared<BarnesHutSimulator>(bodies, STEP, GLOBAL_QUADRANT_SIZE, THETA)
+		std::make_shared<DirectSimulator>(bodies, Globals::STEP),
+		std::make_shared<BarnesHutSimulator>(bodies, Globals::STEP, Globals::GLOBAL_QUADRANT_SIZE, Globals::THETA)
 	};
 
 	ApplicationWindow::solvers = {

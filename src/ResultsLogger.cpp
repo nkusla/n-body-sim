@@ -34,7 +34,7 @@ void ResultsLogger::logSystemEnergy(std::vector<Body>& bodies) {
 	for(int i = 0; i < bodies.size(); ++i) {
 		for(int j = i+1; j < bodies.size(); ++j) {
 			double r = glm::length(bodies[i].getPosition() - bodies[j].getPosition());
-			potentialEnergy += - G * bodies[i].getMass() * bodies[j].getMass() / r;
+			potentialEnergy += - Globals::G * bodies[i].getMass() * bodies[j].getMass() / r;
 		}
 	}
 

@@ -33,7 +33,7 @@ glm::vec2 QuadtreeNode::getCenterOfMass() {
 }
 
 bool QuadtreeNode::subdivideNode() {
-	if(depth == MAX_QUADTREE_DEPTH)
+	if(depth == Globals::MAX_QUADTREE_DEPTH)
 		return false;
 
 	nodes[0] = new QuadtreeNode(
@@ -93,7 +93,7 @@ bool QuadtreeNode::recursivelyInsertBody(int newBodyIndex) {
 	}
 
 	// This is a leaf node. We add a body if it has space.
-	if(bodyIndex.size() < MAX_BODY_PER_NODE) {
+	if(bodyIndex.size() < Globals::MAX_BODY_PER_NODE) {
 		updateCenterOfMass(newBodyIndex);
 		bodyIndex.push_back(newBodyIndex);
 		return true;
@@ -119,9 +119,9 @@ bool QuadtreeNode::recursivelyInsertBody(int newBodyIndex) {
 
 void QuadtreeNode::calculateBodyAcceleration(int bIndex, float mass, glm::vec2 centerOfMass) {
 	glm::vec2 r = bodies[bIndex].getPosition() - centerOfMass;
-	float r_div = glm::pow(glm::max(0.8f, glm::length(r)), 3);
+	float r_div = glm::pow(glm::max(Globals::EPSILON, glm::length(r)), 3);
 
-	r *= - G * mass / r_div;
+	r *= - Globals::G * mass / r_div;
 	bodies[bIndex].addAcceleration(r);
 }
 
@@ -137,7 +137,7 @@ void QuadtreeNode::recursivelyCalculateBodyAcceleration(int bIndex) {
 	float s = bottomRight.x - topLeft.x;
 
 	// We perform aproximation
-	if(s/d < THETA) {
+	if(s/d < Globals::THETA) {
 		calculateBodyAcceleration(bIndex, totalMass, getCenterOfMass());
 		return;
 	}

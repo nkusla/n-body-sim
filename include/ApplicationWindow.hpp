@@ -12,9 +12,9 @@
 #include <GL/gl.h>
 
 #include "Simulator.hpp"
-#include "globals.hpp"
+#include "Globals.hpp"
 #include "DataParser.hpp"
-#include "globals.hpp"
+#include "Globals.hpp"
 
 class ApplicationWindow {
 	private:

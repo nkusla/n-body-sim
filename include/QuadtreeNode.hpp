@@ -4,7 +4,7 @@
 #include <vector>
 #include <glm/glm.hpp>
 #include "Body.hpp"
-#include "globals.hpp"
+#include "Globals.hpp"
 
 class QuadtreeNode {
 	private:

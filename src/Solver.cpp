@@ -38,7 +38,6 @@ void Verlet::solve(std::vector<Body>& bodies, float dt) {
 	}
 
 	for(int i = 0; i < bodies.size(); i++) {
-
 		glm::vec2 newPosition = bodies[i].getPosition();
 		newPosition *= 2;
 		newPosition -= previousPosition[i];
