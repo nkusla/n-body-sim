@@ -30,4 +30,3 @@ find_package(OpenGL REQUIRED)
 link_libraries(glm::glm glfw OpenGL::GL)
 
 add_executable(SimulationGUI "simulation/SimulationGUI.cpp" ${SOURCES} ${IMGUI})
-add_executable(SimulationNoGUI "simulation/SimulationNoGUI.cpp" ${SOURCES} ${IMGUI})

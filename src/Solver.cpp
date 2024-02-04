@@ -32,8 +32,10 @@ void Verlet::solve(std::vector<Body>& bodies, float dt) {
 		newPosition *= 2;
 		newPosition -= previousPosition[i];
 		newPosition += bodies[i].getAcceleration() * dt * dt;
+		glm::vec2 newVelocity = (newPosition - bodies[i].getPosition()) / dt;
 
 		previousPosition[i] = bodies[i].getPosition();
 		bodies[i].setPosition(newPosition);
+		bodies[i].setVelocity(newVelocity);
 	}
 }

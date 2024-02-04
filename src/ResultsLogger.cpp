@@ -32,7 +32,10 @@ void ResultsLogger::logSystemEnergy(std::vector<Body>& bodies) {
 		kineticEnergy += 0.5 * b.getMass() * glm::pow(glm::length(b.getVelocity()), 2);
 
 	for(int i = 0; i < bodies.size(); ++i) {
-		for(int j = i+1; j < bodies.size(); ++j) {
+		for(int j = 0; j < bodies.size(); ++j) {
+			if(i == j)
+				continue;
+
 			double r = glm::length(bodies[i].getPosition() - bodies[j].getPosition());
 			potentialEnergy += - Globals::G * bodies[i].getMass() * bodies[j].getMass() / r;
 		}

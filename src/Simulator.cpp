@@ -26,7 +26,7 @@ void Simulator::generateRandomBodies(float maxPos, float maxVel, float mass) {
 	std::chrono::system_clock::time_point tp = std::chrono::system_clock::now();
 	long long seed = std::chrono::duration_cast<std::chrono::milliseconds>(tp.time_since_epoch()).count();
 
-	std::default_random_engine generator(1616);
+	std::default_random_engine generator(seed);
 	std::uniform_real_distribution<float> posDist(-maxPos, maxPos);
 	std::uniform_real_distribution<float> velDist(-maxVel, maxVel);
 
