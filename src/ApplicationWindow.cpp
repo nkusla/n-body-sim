@@ -4,6 +4,7 @@ const char* ApplicationWindow::fileOptions[] = {
 	"2_body",
 	"2_body_orbit",
 	"4_body_collision",
+	"galaxy_rotation",
 	"500_galaxy",
 	"1000_galaxy",
 	"1500_galaxy",
@@ -13,8 +14,8 @@ const char* ApplicationWindow::fileOptions[] = {
 };
 
 const char* ApplicationWindow::solverOptions[] = {
-	"SemiImplicitEuler",
-	"ForwardEuler",
+	"SemiImplicit Euler",
+	"Forward Euler",
 	"Verlet"
 };
 
@@ -163,7 +164,7 @@ void ApplicationWindow::displayAllWidgets() {
 	if(ImGui::Button("Radnom")) {
 		simulator->generateRandomBodies(10, 5e1, 1e14);
 		simulator->resetSimulation();
-		//DataParser::writeBodyDataToCSV("../data/3000_galaxy.csv", simulator->getBodies());
+		//DataParser::writeBodyDataToCSV("../data/random.csv", simulator->getBodies());
 	}
 
 	ImGui::End();
