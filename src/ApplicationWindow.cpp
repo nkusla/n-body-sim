@@ -4,7 +4,8 @@ const char* ApplicationWindow::fileOptions[] = {
 	"2_body",
 	"2_body_orbit",
 	"4_body_collision",
-	"galaxy_rotation",
+	"1500_spiral_galaxy",
+	"2400_spiral_galaxy",
 	"500_galaxy",
 	"1000_galaxy",
 	"1500_galaxy",
@@ -103,10 +104,12 @@ void ApplicationWindow::displayBodies() {
 void ApplicationWindow::checKeyPressed() {
 	if(glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
 		scaling_factor -= scaling_step;
-		scaling_factor = (scaling_factor < 0) ? scaling_step : scaling_factor;
+		scaling_factor = (scaling_factor <= 0) ? scaling_step : scaling_factor;
 	}
 	else if(glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
 		scaling_factor += scaling_step;
+	else if(glfwGetKey(window, GLFW_KEY_ENTER) == GLFW_PRESS)
+		resetSimulator();
 	else
 		return;
 }
