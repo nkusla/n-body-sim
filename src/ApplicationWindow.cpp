@@ -91,7 +91,7 @@ glm::vec2 ApplicationWindow::transformBodyPosition(glm::vec2 position) {
 
 void ApplicationWindow::displayBodies() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glPointSize(300.f * scaling_factor);
+	glPointSize(1000.f * scaling_factor);
 
 	glBegin(GL_POINTS);
 	for(Body& b : simulator->getBodies()) {

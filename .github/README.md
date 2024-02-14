@@ -38,14 +38,14 @@ are enabled in order to achive maximal performance.
 RELEASE mode:
 ```
 cd build
-cmake -DDEBUG=OFF ..
+cmake -DCMAKE_BUILD_TYPE=Release ..
 make
 ```
 
 DEBUG mode:
 ```
 cd build
-cmake -DDEBUG=ON ..
+cmake -DCMAKE_BUILD_TYPE=Debug ..
 make
 ```
 

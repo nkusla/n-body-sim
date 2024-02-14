@@ -1,21 +1,23 @@
 cmake_minimum_required(VERSION 3.12)
 project(NBodySimulation)
 
-if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 11)
-    message(FATAL_ERROR "GCC version 10 or newer is required.")
+if (NOT (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND CMAKE_CXX_COMPILER_VERSION GREATER_EQUAL 13))
+    message(FATAL_ERROR "GCC version 11 or newer is required.")
 	return()
 endif()
 
 set(CMAKE_CXX_STANDARD 14)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-option(DEBUG "Building in RELEASE mode" ON)
+if(NOT CMAKE_BUILD_TYPE)
+	set(CMAKE_BUILD_TYPE Release)
+endif()
 
-if (DEBUG)
-	message("Building in DEBUG mode")
-	add_compile_options(-g)
-else()
-	message("Building in RELEASE mode")
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+	message("Build type: DEBUG")
+	add_compile_options(-O0 -g)
+elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
+	message("Build type: RELEASE")
 	add_compile_options(-O3 -march=native -DNDEBUG)
 endif()
 
