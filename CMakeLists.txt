@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.12)
 project(NBodySimulation)
 
-if (NOT (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND CMAKE_CXX_COMPILER_VERSION GREATER_EQUAL 13))
+if (NOT (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND CMAKE_CXX_COMPILER_VERSION GREATER_EQUAL 11))
     message(FATAL_ERROR "GCC version 11 or newer is required.")
 	return()
 endif()
