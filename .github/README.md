@@ -8,7 +8,7 @@ Following numerical methods have been implemented for calculating body position 
 - Semi-implicit Euler method
 - Verlet integration
 
-As for the body acceleration, two methods have been used:
+As for the calculation of body acceleration, two methods have been used:
 
 - Direct method
 - Barnes-Hut method
@@ -24,16 +24,16 @@ Before bulding this project, following libraries need to be installed on the sys
 - [OpenGL v3.3](https://www.opengl.org/)
 - [ImGui v1.90.1](https://github.com/ocornut/imgui)
 
-ImGui should be downloaded from main GitHub repository and placed inside of `imgui/` directory inside of root project directory.
+**NOTE:** Installation of these libraries depends on Linux distro that you use.
 
-### How to build
+### How to build on Linux
+
+Firstly, run `init.sh` script from root directory. This will download ImGui library, extract it and copy necessary source files. It will also create `build` and `results` directories.
 
 This project uses `cmake` for building process.
 
-First created `build/` directory inside of root project directory.
-
 This project can be build in DEBUG and RELEASE mode. When building in RELEASE mode all necessary g++ flags
-are enabled in order to achive maximal performance.
+are enabled in order to achive better performance.
 
 RELEASE mode:
 ```
@@ -47,6 +47,22 @@ DEBUG mode:
 cd build
 cmake -DCMAKE_BUILD_TYPE=Debug ..
 make
+```
+
+### How to run on Linux
+
+After building, application can be run by executing `SimulationGUI` program located inside of `build` directory.
+
+### Running application in Docker
+
+Building Docker image based on Ubuntu:
+```
+docker build .
+```
+
+Running Docker container from image:
+```
+docker run --net=host -e DISPLAY=$DISPLAY <image-id>
 ```
 
 ### Examples
